@@ -9,18 +9,16 @@ from .models import Chat
 
 from django.utils import timezone
 
-api_key = ''
+api_key = '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'
 client = OpenAI(api_key=api_key)
 
 # OpenAI do NOT provide free API anymore, so the function is deprecated.
 def ask_openai(message):
     response = client.chat.completions.create(
-        model = "gpt-3.5-turbo",
+        model = "gpt-4",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Who won the world series in 2020?"},
-            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-            {"role": "user", "content": "Where was it played?"}
+            {"role": "system", "content": "You are an helpful assistant."},
+            {"role": "user", "content": message},
         ]
     )
     answer = response.choices[0].message.content.strip()
@@ -28,12 +26,12 @@ def ask_openai(message):
 
 # Create your views here.
 def chatbot(request):
-    chats = Chat.objects.filter(user=request.user)
+    chats = Chat.objects.filter(user=request.user.id)
 
     if request.method == 'POST':
         message = request.POST.get('message')
-        # response = ask_openai(message)
-        response = "Hi, this is my repsonse"
+        response = ask_openai(message)
+        # response = "Hi, this is my repsonse"
 
         chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
         chat.save()
