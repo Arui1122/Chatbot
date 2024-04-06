@@ -9,10 +9,10 @@ from .models import Chat
 
 from django.utils import timezone
 
-api_key = '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'
+api_key = 'Enter you API key here'
 client = OpenAI(api_key=api_key)
 
-# OpenAI do NOT provide free API anymore, so the function is deprecated.
+# OpenAI do NOT provide free API anymore.
 def ask_openai(message):
     response = client.chat.completions.create(
         model = "gpt-4",
