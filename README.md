@@ -1,1 +1,1 @@
-Django. OpenAI API
+Django, OpenAI API
